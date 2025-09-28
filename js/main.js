@@ -152,9 +152,14 @@
     function getIconForType(type) {
       switch (type) {
         case "vip": 
-        return "👑";
-        case "accessible": return "♿";
-        default: return "👤";
+        return document.querySelector('[data-type="vip"] svg').outerHTML;
+        // return "👑";
+        case "accessible":
+            return document.querySelector('[data-type="accessible"] svg').outerHTML;
+            //  return "♿";
+        default: 
+            return document.querySelector('[data-type="normal"] svg').outerHTML;
+            // return "👤";
       }
     }
 
@@ -181,8 +186,6 @@
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
         currentType = btn.getAttribute('data-type');
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
         svg.style.cursor = (["rect", "circle", "line", "polygon", "polyline", "curve", "parabola"].includes(currentType)) ? 'crosshair' : 'pointer';
         clearSelection();
         cancelMultiPointDrawing();
@@ -347,17 +350,55 @@
           const seatGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
           seatGroup.classList.add("draggable");
           seatGroup.setAttribute("transform", `translate(${pt.x},${pt.y})`);
+          
           const bgCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
           bgCircle.setAttribute("r", 15);
           bgCircle.setAttribute("fill", currentType === "vip" ? "#FFD700" : currentType === "accessible" ? "#90EE90" : "#87CEEB");
-          bgCircle.setAttribute("stroke", "#333");
+           bgCircle.setAttribute("fill", "#ffffff");
+          bgCircle.setAttribute("stroke", "#fff");
           bgCircle.setAttribute("stroke-width", 2);
           seatGroup.appendChild(bgCircle);
-          const seatText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-          seatText.classList.add("seat-icon");
-          seatText.textContent = getIconForType(currentType);
-          seatText.setAttribute("y", 2);
-          seatGroup.appendChild(seatText);
+
+            //   const seatText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            //   seatText.classList.add("seat-icon");
+            //   seatText.textContent = getIconForType(currentType);
+            //   seatText.setAttribute("y", 2);
+            //   seatGroup.appendChild(seatText);
+
+            const parser = new DOMParser();
+            const svgDoc = parser.parseFromString(getIconForType(currentType), "image/svg+xml");
+            const svgElement = svgDoc.documentElement;
+
+            // Get viewBox info to know icon's original size and center it properly
+            const viewBox = svgElement.getAttribute("viewBox");
+            let vbX = 0, vbY = 0, vbWidth = 100, vbHeight = 100; // fallback defaults
+            if (viewBox) {
+            const parts = viewBox.split(" ").map(Number);
+            [vbX, vbY, vbWidth, vbHeight] = parts;
+            }
+
+            // Calculate scale factor to fit 30x30 circle (radius 15)
+            const scale = Math.min(30 / vbWidth, 30 / vbHeight);
+
+            // Create a group to hold and transform the icon
+            const iconGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+            // Center icon by translating negative viewBox origin, then center inside circle, then scale
+            const translateX = -vbX + (vbWidth / 2);
+            const translateY = -vbY + (vbHeight / 2);
+            iconGroup.classList.add('seat');
+            iconGroup.setAttribute("transform", 
+            `translate(${-30},${-30}) scale(${scale}) translate(${translateX},${translateY})`
+            );
+
+            // Append all children from svgElement into iconGroup
+            while (svgElement.firstChild) {
+            iconGroup.appendChild(svgElement.firstChild);
+            }
+
+            seatGroup.appendChild(iconGroup);
+
+        
           svg.appendChild(seatGroup);
           elementsStack.push(seatGroup);
           updateUndoRedoButtons();
@@ -475,16 +516,3 @@
       }
       return d;
     }
-
-    const exportBtn = document.getElementById('exportSvgBtn');
-
-    exportBtn.addEventListener('click', () => {
-      // Serialize SVG content
-      const svgData = new XMLSerializer().serializeToString(svg);
-
-      // Save in localStorage
-      localStorage.setItem('exportedSVG', svgData);
-
-      // Open display page
-      window.open('display.html', '_blank');
-    });

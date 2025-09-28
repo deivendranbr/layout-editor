@@ -1,0 +1,93 @@
+#svgCanvas {
+    border: 1px solid #ccc;
+    cursor: crosshair;
+    user-select: none;
+}
+
+.draggable:hover {
+    cursor: move;
+}
+
+button {
+    margin: 5px;
+    border: .0625rem solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.active {
+    background-color: #ccc;
+}
+
+#buttons {
+    margin-bottom: 10px;
+}
+
+text.seat-icon {
+    pointer-events: none;
+    font-size: 24px;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    user-select: none;
+}
+
+.selected>circle,
+circle.selected,
+rect.selected,
+line.selected,
+polygon.selected,
+polyline.selected,
+path.selected {
+    stroke: red !important;
+    stroke-width: 3 !important;
+}
+
+#seatForm {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 5;
+}
+
+body {
+    margin: 0;
+}
+
+.header {
+    height: 85px;
+    text-align: center;
+    background-color: #782327;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 24px;
+}
+
+.main-content {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+}
+
+.shapes-header {
+    margin-top: 0;
+}

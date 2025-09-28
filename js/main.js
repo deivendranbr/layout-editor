@@ -516,3 +516,16 @@
       }
       return d;
     }
+
+    const exportBtn = document.getElementById('exportSvgBtn');
+
+    exportBtn.addEventListener('click', () => {
+      // Serialize SVG content
+      const svgData = new XMLSerializer().serializeToString(svg);
+
+      // Save in localStorage
+      localStorage.setItem('exportedSVG', svgData);
+
+      // Open display page
+      window.open('display.html', '_blank');
+    });

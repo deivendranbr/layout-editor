@@ -14,6 +14,9 @@
     }
     button {
       margin: 5px;
+      border: .0625rem solid #ccc;
+      background-color: #fff;
+      border-radius: 5px;
     }
     #buttons {
       margin-bottom: 10px;
@@ -35,27 +38,82 @@
       stroke: red !important;
       stroke-width: 3 !important;
     }
+    body {
+      margin: 0;
+    }
+    .header {
+      height: 85px;
+      text-align: center;
+      background-color: #782327;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 24px;
+    }
+    .main-content {
+      display: flex;
+      padding: 10px;
+      gap: 10px;
+    }
+    .shapes-header {
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
 
-<div class="buttons">
-  <button data-type="vip">Add VIP Seat</button>
-  <button data-type="normal">Add Normal Seat</button>
-  <button data-type="accessible">Add Accessible Seat</button>
-  <button data-type="rect">Add Rectangle</button>
-  <button data-type="circle">Add Circle</button>
-  <button data-type="line">Add Line</button>
-  <button data-type="polygon">Add Polygon</button>
-  <button data-type="polyline">Add Polyline</button>
-  <button data-type="curve">Add Curve</button>
-  <button data-type="parabola">Add Parabola</button> <!-- NEW -->
-  <button id="undoBtn" disabled>Undo Last</button>
-  <button id="redoBtn" disabled>Redo</button>
-  <button id="deleteBtn" disabled>Delete Selected</button>
-</div>
+  <div class="container">
+    <div class="header">Layout Editor</div>
+    <div class="main-content">
+      <div class="svg-container">
+        <svg id="svgCanvas" width="1200" height="600"></svg>
+      </div>
+      <div class="action-container">
+        <div class="shapes-container">
+          <h2 class="shapes-header">Shapes</h2>
+          <div class="buttons">
+            <button data-type="rect">
+              <img src="./assests/rectangle.png" alt="Rectangle Icon" style="width: 2rem;"/>
+            </button>
+            <button data-type="circle">
+              <img src="./assests/circle.png" alt="Circle Icon" style="width: 2rem;"/>
+            </button>
+            <button data-type="line">
+              <img src="./assests/line.png" alt="Line Icon" style="width: 2rem;"/>
+            </button>
+            <button data-type="polygon">
+              <img src="./assests/polygon.png" alt="Polygon Icon" style="width: 2rem;"/>
+            </button>
+            <button data-type="polyline">
+              <img src="./assests/polyline.png" alt="Polyline Icon" style="width: 2rem;"/>
+            </button>
+            <button data-type="curve">Add Curve</button>
+            <button data-type="parabola">Add Parabola</button> <!-- NEW -->
+          </div>
+        </div>
+        <div class="seat-container">
+          <h2 class="seat-header">Seats</h2>
+          <div class="buttons">
+            <button data-type="vip">Add VIP Seat</button>
+            <button data-type="normal">Add Normal Seat</button>
+            <button data-type="accessible">Add Accessible Seat</button>
+          </div>
+        </div>
+        <div class="handle-container">
+          <h2 class="handle-header">Actions</h2>
+          <div class="buttons">
+            <button id="undoBtn" disabled>Undo Last</button>
+            <button id="redoBtn" disabled>Redo</button>
+            <button id="deleteBtn" disabled>Delete Selected</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
 
-<svg id="svgCanvas" width="900" height="600"></svg>
+
 
 <script>
   const svg = document.getElementById('svgCanvas');

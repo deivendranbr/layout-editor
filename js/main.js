@@ -181,6 +181,8 @@
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
         currentType = btn.getAttribute('data-type');
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         svg.style.cursor = (["rect", "circle", "line", "polygon", "polyline", "curve", "parabola"].includes(currentType)) ? 'crosshair' : 'pointer';
         clearSelection();
         cancelMultiPointDrawing();
@@ -473,3 +475,16 @@
       }
       return d;
     }
+
+    const exportBtn = document.getElementById('exportSvgBtn');
+
+    exportBtn.addEventListener('click', () => {
+      // Serialize SVG content
+      const svgData = new XMLSerializer().serializeToString(svg);
+
+      // Save in localStorage
+      localStorage.setItem('exportedSVG', svgData);
+
+      // Open display page
+      window.open('display.html', '_blank');
+    });

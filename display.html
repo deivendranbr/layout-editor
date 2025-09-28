@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SVG Viewer</title>
+  <style>
+    body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    #svgContainer svg { border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <div id="svgContainer"></div>
+
+  <script>
+    const container = document.getElementById('svgContainer');
+
+    // Get SVG from localStorage
+    const svgData = localStorage.getItem('exportedSVG');
+    if (svgData) {
+      container.innerHTML = svgData;
+    } else {
+      container.innerHTML = "<p>No SVG found. Please export from editor first.</p>";
+    }
+  </script>
+</body>
+</html>

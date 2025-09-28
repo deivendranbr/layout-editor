@@ -186,6 +186,8 @@
     buttons.forEach(btn => {
       btn.addEventListener('click', () => {
         currentType = btn.getAttribute('data-type');
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         svg.style.cursor = (["rect", "circle", "line", "polygon", "polyline", "curve", "parabola"].includes(currentType)) ? 'crosshair' : 'pointer';
         clearSelection();
         cancelMultiPointDrawing();
